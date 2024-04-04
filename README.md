@@ -24,6 +24,9 @@ installed, you can invoke it as:
 invoke fmt
 ```
 
+Albeit, this project aims to be simple, which means that in most cases you are not
+going to need it. For example, to run tests, just write `pytest`.
+
 ## Configuration
 
 You need to use your Advento of Code Cookie session in order to be able to

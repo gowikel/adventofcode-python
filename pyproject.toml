@@ -1,0 +1,31 @@
+[tool.poetry]
+name = "adventofcode-python"
+description = "Code for the Advent of Code challenges, from 2023 onwards."
+authors = ["Pedro Piquero <pedropiqueroplaza@proton.me>"]
+license = "MIT"
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.12"
+requests = "^2.31.0"
+python-dotenv = "^1.0.1"
+rich = "^13.7.1"
+
+
+[tool.poetry.group.dev.dependencies]
+ipython = "^8.23.0"
+black = "^24.3.0"
+invoke = "^2.2.0"
+isort = "^5.13.2"
+
+
+[tool.poetry.group.test.dependencies]
+pytest = "^8.1.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+adventofcode = 'aoc:main'

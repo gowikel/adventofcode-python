@@ -22,6 +22,8 @@ isort = "^5.13.2"
 
 [tool.poetry.group.test.dependencies]
 pytest = "^8.1.1"
+immobilus = "^1.5.0"
+ipdb = "^0.13.13"
 
 [build-system]
 requires = ["poetry-core"]

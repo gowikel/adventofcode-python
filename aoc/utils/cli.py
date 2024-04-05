@@ -44,13 +44,13 @@ def parse_args(args=None):
 
     target_day = date(year, month, day)
 
-    if not is_valid_date(target_day):
+    if not _is_valid_date(target_day):
         raise InvalidConfiguration(f'The specified date "{target_day}" is invalid')
 
     return args
 
 
-def is_valid_date(date):
+def _is_valid_date(date):
     year = date.year
     month = date.month
     day = date.day

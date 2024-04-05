@@ -6,7 +6,7 @@ import pytest
 from immobilus import immobilus
 
 from aoc.errors import InvalidConfiguration
-from aoc.utils.cli import VALID_YEARS, is_valid_date, parse_args
+from aoc.utils.cli import VALID_YEARS, parse_args
 
 
 class TestParseArgs:
@@ -82,67 +82,3 @@ class TestParseArgs:
         def test_invalid_days_on_december(self, day):
             with pytest.raises(InvalidConfiguration):
                 parse_args(["--day", str(day)])
-
-
-class TestIsValidDate:
-    @pytest.mark.parametrize("year", VALID_YEARS)
-    def test_valid_years(self, year):
-        test_date = date(year, DECEMBER, 1)
-
-        result = is_valid_date(test_date)
-
-        assert result is True
-
-    @pytest.mark.parametrize("year", [2022, 2024])
-    def test_invalid_years(self, year):
-        test_date = date(year, DECEMBER, 1)
-
-        result = is_valid_date(test_date)
-
-        assert result is False
-
-    def test_december_is_valid(self):
-        test_date = date(2023, DECEMBER, 1)
-
-        result = is_valid_date(test_date)
-
-        assert result is True
-
-    @pytest.mark.parametrize(
-        "month",
-        [
-            JANUARY,
-            FEBRUARY,
-            MARCH,
-            APRIL,
-            MAY,
-            JUNE,
-            JULY,
-            AUGUST,
-            SEPTEMBER,
-            OCTOBER,
-            NOVEMBER,
-        ],
-    )
-    def test_invalid_months(self, month):
-        test_date = date(2023, month, 1)
-
-        result = is_valid_date(test_date)
-
-        assert result is False
-
-    @pytest.mark.parametrize("day", range(1, 26))
-    def test_valid_days(self, day):
-        test_date = date(2023, DECEMBER, day)
-
-        result = is_valid_date(test_date)
-
-        assert result is True
-
-    @pytest.mark.parametrize("day", range(26, 32))
-    def test_invalid_days(self, day):
-        test_date = date(2023, DECEMBER, day)
-
-        result = is_valid_date(test_date)
-
-        assert result is False

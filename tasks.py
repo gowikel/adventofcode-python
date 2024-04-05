@@ -10,6 +10,7 @@ def isort(c):
 @task
 def black(c):
     """Formats the source code using black"""
+    c.run("black .")
 
 
 @task(pre=[black, isort])

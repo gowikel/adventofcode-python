@@ -25,6 +25,7 @@ pytest = "^8.1.1"
 immobilus = "^1.5.0"
 ipdb = "^0.13.13"
 coverage = "^7.4.4"
+requests-mock = "^1.12.1"
 
 [build-system]
 requires = ["poetry-core"]

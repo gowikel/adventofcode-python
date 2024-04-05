@@ -22,25 +22,6 @@ DAY_HELP = (
 )
 
 
-def _get_default_year():
-    current = datetime.now()
-
-    if current.month == DECEMBER:
-        return current.year
-
-    return current.year - 1
-
-
-def _get_default_day():
-    current = datetime.now()
-    today = current.day
-
-    if current.month == DECEMBER:
-        return today
-
-    return None
-
-
 def parse_args(args=None):
     # Avoid sending None to parse_args, as that will trigger a read
     # from sys.argv, which will defeat the testing process
@@ -75,3 +56,22 @@ def is_valid_date(date):
     day = date.day
 
     return year in VALID_YEARS and month == DECEMBER and day in VALID_DECEMBER_DAYS
+
+
+def _get_default_year():
+    current = datetime.now()
+
+    if current.month == DECEMBER:
+        return current.year
+
+    return current.year - 1
+
+
+def _get_default_day():
+    current = datetime.now()
+    today = current.day
+
+    if current.month == DECEMBER:
+        return today
+
+    return None

@@ -1,8 +1,9 @@
 import logging
+import sys
 
 from rich.console import Console
 from rich.logging import RichHandler
-from utils.cli import parse_conf
+from utils.cli import parse_args
 from utils.data import download_input
 
 FORMAT = "%(message)s"
@@ -19,7 +20,7 @@ def main():
         handlers=[RichHandler(rich_tracebacks=True)],
     )
 
-    cli_opts = parse_conf()
+    cli_opts = parse_args(sys.argv[1:])
     console.print("Parse conf:", cli_opts)
 
     try:

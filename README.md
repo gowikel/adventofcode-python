@@ -33,3 +33,11 @@ You need to use your Advento of Code Cookie session in order to be able to
 download the puzzle input. Just store it on the `SESSION_COOKIE` env variable.
 
 For convenience, the project reads the `.env` file.
+
+## Run the executable
+
+Assuming that you are using the repo and not the installed binary, simply run:
+
+```bash
+python -m aoc.main [OPTS]
+```

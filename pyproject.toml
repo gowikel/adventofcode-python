@@ -38,3 +38,8 @@ adventofcode = 'aoc:main'
 [tool.pytest.ini_options]
 console_output_style = "progress"
 verbosity_assertions = 3
+filterwarnings = [
+  "ignore::DeprecationWarning:pkg_resources",
+  "ignore::DeprecationWarning:fs",
+  "ignore::DeprecationWarning:fs.opener"
+]

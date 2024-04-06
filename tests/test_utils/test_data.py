@@ -2,14 +2,32 @@ from unittest.mock import patch
 
 import pytest
 import requests
+from fs.memoryfs import MemoryFS
 
 from aoc.errors import InvalidConfiguration
-from aoc.utils.data import SESSION_COOKIE, download_input
+from aoc.utils.data import (
+    SESSION_COOKIE,
+    download_input,
+    get_puzzle_data,
+    puzzle_filename,
+)
 
 
 @pytest.fixture
 def config_mock():
     with patch.dict("aoc.utils.config") as mock:
+        yield mock
+
+
+@pytest.fixture
+def dowload_input_mock():
+    with patch("aoc.utils.data.download_input") as mock:
+        yield mock
+
+
+@pytest.fixture
+def cache_fs_mock():
+    with patch("aoc.utils.data.cache_fs", MemoryFS()) as mock:
         yield mock
 
 
@@ -49,3 +67,53 @@ class TestDownloadInput:
 
         with pytest.raises(requests.exceptions.HTTPError):
             download_input(2023, 12)
+
+
+class TestPuzzleFilename:
+    def test_happy_path(self):
+        year = 2023
+        day = 12
+        expected_filename = f"AOC_{year}_{day}.txt"
+        result = puzzle_filename(year, day)
+
+        assert result == expected_filename
+
+
+class TestGetPuzzleData:
+    @pytest.mark.usefixtures("cache_fs_mock")
+    def test_input_is_fetched_when_cache_is_empty(self, dowload_input_mock):
+        year = 2023
+        day = 12
+        dowload_input_mock.return_value = "PUZZLE_DATA"
+
+        result = get_puzzle_data(year, day)
+        result_data = result.read()
+
+        assert result_data == "PUZZLE_DATA"
+        dowload_input_mock.assert_called_once_with(year, day)
+
+    def test_cache_is_populated(self, cache_fs_mock, dowload_input_mock):
+        year = 2023
+        day = 12
+        filename = puzzle_filename(year, day)
+        dowload_input_mock.return_value = "PUZZLE_DATA"
+
+        assert cache_fs_mock.exists(filename) is False
+
+        get_puzzle_data(year, day)
+
+        assert cache_fs_mock.exists(filename) is True
+        assert cache_fs_mock.readtext(filename) == "PUZZLE_DATA"
+
+    def test_input_is_retrieved_from_cache(self, dowload_input_mock, cache_fs_mock):
+        year = 2023
+        day = 12
+        filename = puzzle_filename(year, day)
+
+        cache_fs_mock.writetext(filename, "PUZZLE_DATA")
+
+        result = get_puzzle_data(year, day)
+        result_data = result.read()
+
+        assert result_data == "PUZZLE_DATA"
+        dowload_input_mock.assert_not_called()

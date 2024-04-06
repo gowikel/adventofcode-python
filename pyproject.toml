@@ -43,3 +43,7 @@ filterwarnings = [
   "ignore::DeprecationWarning:fs",
   "ignore::DeprecationWarning:fs.opener"
 ]
+
+[tool.isort]
+profile = "black"
+ignore_whitespace = true

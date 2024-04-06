@@ -1,5 +1,17 @@
-from calendar import (APRIL, AUGUST, DECEMBER, FEBRUARY, JANUARY, JULY, JUNE,
-                      MARCH, MAY, NOVEMBER, OCTOBER, SEPTEMBER)
+from calendar import (
+    APRIL,
+    AUGUST,
+    DECEMBER,
+    FEBRUARY,
+    JANUARY,
+    JULY,
+    JUNE,
+    MARCH,
+    MAY,
+    NOVEMBER,
+    OCTOBER,
+    SEPTEMBER,
+)
 from datetime import date, datetime
 
 import pytest

@@ -3,6 +3,7 @@ import sys
 
 from rich.console import Console
 from rich.logging import RichHandler
+
 from .utils.cli import parse_args
 from .utils.data import download_input
 

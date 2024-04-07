@@ -9,6 +9,7 @@ from aoc.utils.data import (
     SESSION_COOKIE,
     download_input,
     get_puzzle_data,
+    purge_cache,
     puzzle_filename,
 )
 
@@ -117,3 +118,14 @@ class TestGetPuzzleData:
 
         assert result_data == "PUZZLE_DATA"
         dowload_input_mock.assert_not_called()
+
+
+class TestPurgeCache:
+    def test_cache_is_deleted(self, cache_fs_mock):
+        cache_fs_mock.touch("data.txt")
+        assert cache_fs_mock.exists("/") is True
+        assert cache_fs_mock.isempty("/") is False
+
+        purge_cache()
+        assert cache_fs_mock.exists("/") is True
+        assert cache_fs_mock.isempty("/") is True

@@ -12,6 +12,7 @@ requests = "^2.31.0"
 python-dotenv = "^1.0.1"
 rich = "^13.7.1"
 fs = "^2.4.16"
+typer = "^0.12.1"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -33,7 +34,7 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
-adventofcode = 'aoc:main'
+aoc = 'aoc:main'
 
 [tool.pytest.ini_options]
 console_output_style = "progress"

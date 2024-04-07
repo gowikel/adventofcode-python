@@ -1,39 +1,43 @@
 import logging
-import sys
 
+import typer
 from rich.console import Console
 from rich.logging import RichHandler
 
-from .utils.cli import parse_args
-from .utils.data import download_input
+from .utils.cli import validate_loglevel
+from .utils.data import purge_cache
 
-FORMAT = "%(message)s"
-
+app = typer.Typer()
 console = Console()
 log = logging.getLogger(__name__)
 
 
-def main():
+@app.callback()
+def main(level="INFO") -> None:
+    """Main entry-point. Used to configure the app"""
     logging.basicConfig(
-        level="NOTSET",
-        format=FORMAT,
+        level=validate_loglevel(level),
+        format="%(message)s",
         datefmt="[%X]",
         handlers=[RichHandler(rich_tracebacks=True)],
     )
+    log.info("Logging configured to {level}")
 
-    cli_opts = parse_args(sys.argv[1:])
-    console.print("Parse conf:", cli_opts)
 
-    try:
+@app.command("clean-cache")
+def clean_cache() -> None:
+    """Deletes the stored cache"""
+    with console.status("Cleaning..."):
+        purge_cache()
 
-        year = 2023
-        day = 1
+    console.print("Cache cleaned!")
 
-        input_data = download_input(year, day)
-        console.print(input_data)
-    except Exception as exc:
-        log.exception(f"Execution failed: {exc}")
+
+@app.command("solve")
+def solve() -> None:
+    """Attempts to solve the specifiec AOC challenge and use the results"""
+    console.print("solve called")
 
 
 if __name__ == "__main__":
-    main()
+    app()

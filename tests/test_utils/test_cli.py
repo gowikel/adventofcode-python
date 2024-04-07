@@ -1,3 +1,4 @@
+import logging
 from calendar import (
     APRIL,
     AUGUST,
@@ -12,13 +13,13 @@ from calendar import (
     OCTOBER,
     SEPTEMBER,
 )
-from datetime import date, datetime
+from datetime import datetime
 
 import pytest
 from immobilus import immobilus
 
 from aoc.errors import InvalidConfiguration
-from aoc.utils.cli import VALID_YEARS, parse_args
+from aoc.utils.cli import VALID_YEARS, parse_args, validate_loglevel
 
 
 class TestParseArgs:
@@ -94,3 +95,25 @@ class TestParseArgs:
         def test_invalid_days_on_december(self, day):
             with pytest.raises(InvalidConfiguration):
                 parse_args(["--day", str(day)])
+
+
+class TestValidateLoglevel:
+    @pytest.mark.parametrize(
+        "loglevel_name, loglevel",
+        [
+            ("CRITICAL", logging.CRITICAL),
+            ("FATAL", logging.FATAL),
+            ("ERROR", logging.ERROR),
+            ("WARNING", logging.WARNING),
+            ("WARN", logging.WARN),
+            ("INFO", logging.INFO),
+            ("DEBUG", logging.DEBUG),
+            ("NOTSET", logging.NOTSET),
+        ],
+    )
+    def test_conversion(self, loglevel_name, loglevel):
+        assert validate_loglevel(loglevel_name) == loglevel
+
+    def test_invalid_value(self):
+        with pytest.raises(InvalidConfiguration):
+            validate_loglevel("MADE-UP-VALUE")

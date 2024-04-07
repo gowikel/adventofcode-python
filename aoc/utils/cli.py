@@ -1,4 +1,5 @@
 import argparse
+import logging
 from calendar import DECEMBER
 from datetime import date, datetime
 
@@ -20,6 +21,17 @@ DAY_HELP = (
     "it is required otherwise."
     "It is also required if we are on December 26-31 range."
 )
+
+LOG2VALUE = {
+    "CRITICAL": logging.CRITICAL,
+    "FATAL": logging.FATAL,
+    "ERROR": logging.ERROR,
+    "WARNING": logging.WARNING,
+    "WARN": logging.WARN,
+    "INFO": logging.INFO,
+    "DEBUG": logging.DEBUG,
+    "NOTSET": logging.NOTSET,
+}
 
 
 def parse_args(args=None):
@@ -48,6 +60,20 @@ def parse_args(args=None):
         raise InvalidConfiguration(f'The specified date "{target_day}" is invalid')
 
     return args
+
+
+def validate_loglevel(loglevel) -> int:
+    """
+    Checks that loglevel is a valid string, returning its corresponding value
+    from logging.
+
+    Raises:
+        InvalidConfiguration if the passed loglevel string is incorrect
+    """
+    try:
+        return LOG2VALUE[loglevel]
+    except KeyError:
+        raise InvalidConfiguration(f"Loglevel {loglevel} is invalid")
 
 
 def _is_valid_date(date):

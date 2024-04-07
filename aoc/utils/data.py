@@ -47,3 +47,10 @@ def get_puzzle_data(year: int, day: int) -> IO:
     data = download_input(year, day)
     cache_fs.writetext(filename, data)
     return cache_fs.open(filename)
+
+
+def purge_cache() -> None:
+    """
+    Cleans-up the cache tree
+    """
+    cache_fs.removetree("/")
